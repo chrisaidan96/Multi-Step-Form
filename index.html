@@ -45,3 +45,16 @@
                   <span class="step-name">Add-ons</span>
                 </div>
               </li>
+              <li class="nav__step flex flex-row align-items-center">
+                <span class="number" :class="{ selected : step === 3 || step === 4}">4</span>
+                <div class="step">
+                  <span class="step-number">Step 4</span> <br />
+                  <span class="step-name">Summary</span>
+                </div>
+              </li>
+            </ul>          
+          </aside>
+        </section>
+        <section class="steps-and-buttons" :class="{justifyContentCenter: step === 4}">
+          <section class="steps">
+
