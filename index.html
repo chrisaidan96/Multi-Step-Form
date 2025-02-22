@@ -4,25 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-    rel="icon"
-    type="image/png"
-    sizes="32x32"
-    href="/assets/images/avatar.png"
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/images/avatar.png"
     />
     <link rel="stylesheet" href="style.css" />
-        <script 
-      src="https://unpkg.com/vue@3/dist/vue.global.js">
-    </script>
-    <title>Multi-step form</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Lorem Games</title>
   </head>
   <body>
     <main id="app">
       <section class="container">
         <section class="navigation">
           <aside>
-
-            <!-- Sidebar start -->
-
             <ul class="nav">
               <li class="nav__step flex flex-row align-items-center">
                 <span class="number" :class="{ selected : step === 0 }">1</span>
@@ -46,35 +41,286 @@
                 </div>
               </li>
               <li class="nav__step flex flex-row align-items-center">
-                <span class="number" :class="{ selected : step === 3 || step === 4}">4</span>
+                <span
+                  class="number"
+                  :class="{ selected : step === 3 || step === 4}"
+                  >4</span
+                >
                 <div class="step">
                   <span class="step-number">Step 4</span> <br />
                   <span class="step-name">Summary</span>
                 </div>
               </li>
-            </ul>          
+            </ul>
           </aside>
         </section>
-        <section class="steps-and-buttons" :class="{justifyContentCenter: step === 4}">
+
+        <!-- Bio-data -->
+
+        <section
+          class="steps-and-buttons"
+          :class="{justifyContentCenter: step === 4}"
+        >
           <section class="steps">
             <section v-show="step === 0" class="step personal-info">
               <div class="description">
                 <h1 class="title">Personal info</h1>
-                <p class="p-description">Kindly provide your name, email address, and phone number.</p>
+                <p class="p-description">
+                  Kindly provide your name, email address, and phone number.
+                </p>
               </div>
               <div class="form flex-column">
                 <div class="flex-row spaceBetween">
-                  <label for="name">Name</label><span v-show="required && !form.personalInfo.name" class="required">This field is required</span>
+                  <label for="name">Name</label
+                  ><span
+                    v-show="required && !form.personalInfo.name"
+                    class="required"
+                    >This field is required</span
+                  >
                 </div>
-                <input type="text" name="name" v-model="form.personalInfo.name" id="name" placeholder="e.g. Longret Mwansat" required class="form" :class="{ required: required && !form.personalInfo.name }">
-                <div class="flex-row spaceBetween"><label for="email">Email Address</label><span v-show="required && !form.personalInfo.email" class="required">
-                  This field is required</span>
+                <input
+                  type="text"
+                  name="name"
+                  v-model="form.personalInfo.name"
+                  id="name"
+                  placeholder="e.g. Longret Mwansat"
+                  required
+                  class="form"
+                  :class="{ required: required && !form.personalInfo.name }"
+                />
+                <div class="flex-row spaceBetween">
+                  <label for="email">Email Address</label
+                  ><span
+                    v-show="required && !form.personalInfo.email"
+                    class="required"
+                  >
+                    This field is required</span
+                  >
                 </div>
-                <input type="email" name="email" v-model="form.personalInfo.email" id="email" placeholder="e.g. stephenking@lorem.com" required class="form" :class="{ required: required && !form.personalInfo.email }">
-                <div class="flex-row spaceBetween"><label for="phone">Phone Number</label><span v-show="required && !form.personalInfo.phone" class="required">This field is required
-                 </span>
+                <input
+                  type="email"
+                  name="email"
+                  v-model="form.personalInfo.email"
+                  id="email"
+                  placeholder="e.g. stephenking@lorem.com"
+                  required
+                  class="form"
+                  :class="{ required: required && !form.personalInfo.email }"
+                />
+                <div class="flex-row spaceBetween">
+                  <label for="phone">Phone Number</label
+                  ><span
+                    v-show="required && !form.personalInfo.phone"
+                    class="required"
+                    >This field is required
+                  </span>
                 </div>
-                <input type="text" name="phone" v-model="form.personalInfo.phone" id="phone" placeholder="e.g. +234 814 753 5151" required class="form" :class="{ required: required && !form.personalInfo.phone }">
+                <input
+                  type="text"
+                  name="phone"
+                  v-model="form.personalInfo.phone"
+                  id="phone"
+                  placeholder="e.g. +234 814 753 5151"
+                  required
+                  class="form"
+                  :class="{ required: required && !form.personalInfo.phone }"
+                />
               </div>
             </section>
 
+            <!-- Plan Selection -->
+
+            <section v-show="step === 1" class="step">
+              <div class="description">
+                <h1 class="title">Select your plan</h1>
+                <p class="p-description">
+                  You have the option of monthly or yearly billing.
+                </p>
+              </div>
+              <section class="cards">
+                <template v-for="(plan, index) in subscriptionPlan">
+                  <input
+                    type="radio"
+                    name="plan"
+                    :id="plan.name"
+                    :checked="plan.isChecked"
+                    :value="{id: index, price: plan.price[typeOfSubscription]}"
+                    class="radio-plan"
+                    v-model="form.selectedPlan"
+                  />
+                  <label :for="plan.name" class="card card-input">
+                    <img :src="plan.img" :alt="plan.name" />
+                    <div class="plan-description">
+                      <h2 class="plan">{{ plan.name }}</h2>
+                      <h2 class="price">
+                        {{ formatPrice(plan.price[typeOfSubscription]) }}
+                      </h2>
+                    </div>
+                  </label>
+                </template>
+              </section>
+              <div class="subscription flex-row">
+                <div class="monthly">Monthly</div>
+                <label class="switch" for="type" @click="reset()">
+                  <input
+                    type="checkbox"
+                    id="type"
+                    v-model="typeOfSubscription"
+                    true-value="yearly"
+                    false-value="monthly"
+                  />
+                  <span class="slider round"></span>
+                </label>
+                <div class="yearly">Yearly</div>
+              </div>
+            </section>
+
+            <!-- Add ons -->
+
+            <section v-show="step === 2" class="step">
+              <div class="description">
+                <h1 class="title">Pick add-ons</h1>
+                <p class="p-description">
+                  Add-ons help enhance your gaming experience.
+                </p>
+              </div>
+              <section class="add-on-plans flex">
+                <template v-for="(addOn, index) in addOns">
+                  <label
+                    :for="getAddOnNamesArray(addOn.name)"
+                    class="add-on flex"
+                    :class="{ checkSelected: isSelected(index) }"
+                  >
+                    <div class="add-on-group flex">
+                      <div class="add-on-check">
+                        <input
+                          type="checkbox"
+                          name="add-on"
+                          :id="getAddOnNamesArray(addOn.name)"
+                          v-model="form.selectedProducts"
+                          :value="{ id: index, name: addOn.name, price: addOn.price[typeOfSubscription] }"
+                        />
+                      </div>
+                      <div class="add-on-description">
+                        <h2 class="plan">{{ addOn.name }}</h2>
+                        <p class="add-on-description">
+                          {{ addOn.description }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="add-on-price">
+                      {{ formatPrice(addOn.price[typeOfSubscription]) }}
+                    </div>
+                  </label>
+                </template>
+              </section>
+            </section>
+
+            <!-- Final stage -->
+
+            <section v-if="step === 3" class="step">
+              <div class="description">
+                <h1 class="title">Finishing up</h1>
+                <p class="p-description">
+                  Double-check everything looks OK before confirming.
+                </p>
+              </div>
+              <div class="plan-selected">
+                <div
+                  class="plan-group flex-row spaceBetween align-items-center"
+                >
+                  <div class="plan-description">
+                    <h2 class="plan">
+                      {{ subscriptionPlan[form.selectedPlan.id].name }}({{
+                      typeOfSubscription }})
+                    </h2>
+                    <p
+                      class="secondary underline hover mt-7"
+                      @click="changePlan"
+                    >
+                      Change
+                    </p>
+                  </div>
+                  <div class="price">
+                    <h2 class="plan">
+                      {{
+                      formatPrice(subscriptionPlan[form.selectedPlan.id].price[typeOfSubscription])
+                      }}
+                    </h2>
+                  </div>
+                </div>
+                <div>
+                  <template v-for="addOn in form.selectedProducts">
+                    <div class="flex-row spaceBetween pt-16">
+                      <div class="plan-description">
+                        <p class="secondary">{{ addOn.name }}</p>
+                      </div>
+                      <div class="price">
+                        <h2 class="secondary">
+                          {{ formatPrice(addOn.price) }}
+                        </h2>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+              <div
+                class="plan-description total m-24 flex-row spaceBetween align-items-center"
+              >
+                <p class="secondary">
+                  Total (per {{ typeOfSubscription === 'monthly' ? 'month' :
+                  'year' }})
+                </p>
+                <h2 class="price">{{ formatPrice(getSubscriptionCost()) }}</h2>
+              </div>
+            </section>
+
+            <section v-show="step === 4" class="step align-items-center">
+              <div class="description flex flex-column align-items-center">
+                <img src="../assets/images/icon-thank-you.svg" />
+                <h1 class="title">Thank you!</h1>
+                <p class="p-description center">
+                  Thanks for confirming your subscription! We hope you have fun
+                  using our platform. If you ever need support, please feel free
+                  to email us at support@loremgaming.com.
+                </p>
+              </div>
+            </section>
+          </section>
+          <section
+            v-if="step >= 0 && step < 4"
+            :class="['buttons flex-end', (step > 0 && step < 4 ? 'spaceBetween' : '')]"
+          >
+            <button v-if="step > 0" @click="changeStep(-1)" class="go-back">
+              Go Back
+            </button>
+            <button
+              @click="changeStep(1)"
+              class="next-step"
+              :class="{ confirm: step === 3 }"
+            >
+              {{ step != 3 ? 'Next Step' : 'Confirm'}}
+            </button>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <div class="attribution">
+        Challenge by
+        <a
+          href="https://www.frontendmentor.io/profile/chrisaidan96"
+          target="_blank"
+          >Frontend Mentor</a
+        >. Coded by
+        <a href="https://github.com/chrisaidan96">Christopher Aidan</a>.
+      </div>
+    </footer>
+    <script src="app.js"></script>
+   
+     <script>
+      const mountedApp = app.mount("#app");
+    </script>
+  </body>
+</html>
