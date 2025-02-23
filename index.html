@@ -64,7 +64,7 @@
           <section class="steps">
             <section v-show="step === 0" class="step personal-info">
               <div class="description">
-                <h1 class="title">Personal info</h1>
+                <h1 class="title">BIO-DATA</h1>
                 <p class="p-description">
                   Kindly provide your name, email address, and phone number.
                 </p>
@@ -106,6 +106,7 @@
                   required
                   class="form"
                   :class="{ required: required && !form.personalInfo.email }"
+                  
                 />
                 <div class="flex-row spaceBetween">
                   <label for="phone">Phone Number</label
